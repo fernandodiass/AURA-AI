@@ -23,7 +23,7 @@ Aura é uma aplicação de chat moderna, rápida e minimalista, desenvolvida com
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/fernandodiass/AURA-AI.git](https://github.com/fernandodiass/AURA-AI.git)
+   git clone [https://github.com/fernandodiass/AURA-AI.git]
 
 Instale as dependências:
 
