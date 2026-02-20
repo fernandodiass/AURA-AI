@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@langchain/community": "^1.1.16",
+    "@langchain/core": "^1.1.26",
+    "@langchain/google-genai": "^2.1.19",
+    "@langchain/openai": "^1.2.8",
+    "@langchain/pinecone": "^1.0.1",
+    "@langchain/textsplitters": "^1.0.1",
+    "@pinecone-database/pinecone": "^7.0.0",
+    "com": "^0.0.5",
+    "dotenv": "^17.3.1",
+    "langchain": "^1.2.25",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/node": "^25.3.0",
+    "@types/react": "^19.2.14",
+    "next": "^16.1.6",
+    "pdf-parse": "^1.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "ingest": "ts-node -P tsconfig.scripts.json --transpile-only scripts/ingest.ts"
+  }
+}
