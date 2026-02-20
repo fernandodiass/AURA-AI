@@ -1,43 +1,42 @@
-import { TaskType } from "@google/generative-ai";
-import { ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings } from "@langchain/google-genai";
+// @ts-nocheck
+import { ChatCohere, CohereEmbeddings } from "@langchain/cohere";
+import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { PineconeStore } from "@langchain/pinecone";
-// @ts-ignore
-import { ConversationalRetrievalQAChain } from "langchain/chains";
+import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
+import { createRetrievalChain } from "langchain/chains/retrieval";
 import { pinecone } from "./pinecone";
 
-export const runAuraEngine = async (query: string, chat_history: any[]) => {
-  const googleKey = process.env.GOOGLE_API_KEY;
+export async function runAuraEngine(query: string, history: any[]) {
+  try {
+    const index = pinecone.Index("aura-index");
+    const model = new ChatCohere({ apiKey: process.env.COHERE_API_KEY, model: "command-r", temperature: 0.3 });
+    const embeddings = new CohereEmbeddings({ apiKey: process.env.COHERE_API_KEY, model: "embed-multilingual-v3.0" });
 
-  // 1. Embeddings configurado para bater com a ingestão
-  const embeddings = new GoogleGenerativeAIEmbeddings({
-    apiKey: googleKey,
-    modelName: "text-embedding-004",
-    taskType: TaskType.RETRIEVAL_QUERY,
-  });
+    const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
+      pineconeIndex: index,
+      textKey: "text", // Deve ser 'text' para bater com seu print
+    });
 
-  // 2. Modelo de Chat
-  const model = new ChatGoogleGenerativeAI({
-    model: "gemini-1.5-flash",
-    apiKey: googleKey,
-  });
+    const retriever = vectorStore.asRetriever({ k: 2 });
+    const prompt = ChatPromptTemplate.fromMessages([
+      ["system", "Você é a Aura. Responda usando o contexto: {context}"],
+      new MessagesPlaceholder("chat_history"),
+      ["user", "{input}"],
+    ]);
 
-  const index = pinecone.Index(process.env.PINECONE_INDEX!);
+    const combineDocsChain = await createStuffDocumentsChain({
+      llm: model,
+      prompt,
+      // Garante que o conteúdo seja string
+      documentSerializer: (docs) => docs.map(d => String(d.pageContent)).join("\n\n"),
+    });
 
-  // 3. VectorStore conectando ao namespace correto
-  const vectorStore = await PineconeStore.fromExistingIndex(embeddings, {
-    pineconeIndex: index,
-    namespace: "aura-knowledge",
-    textKey: "text",
-  });
+    const chain = await createRetrievalChain({ retriever, combineDocsChain });
+    const response = await chain.invoke({ input: query, chat_history: history || [] });
 
-  const chain = ConversationalRetrievalQAChain.fromLLM(
-    model,
-    vectorStore.asRetriever({ k: 3 }),
-    { returnSourceDocuments: true }
-  );
-
-  return await chain.call({
-    question: query,
-    chat_history: chat_history,
-  });
-};
+    return { text: response.answer, sources: response.context };
+  } catch (error) {
+    console.error("Erro no Engine:", error);
+    throw error;
+  }
+}
