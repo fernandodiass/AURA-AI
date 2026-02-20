@@ -1,2 +1,2 @@
 # AURA-Assistente-Inteligente
-AURA é uma assistente inteligente de alto desempenho construída sobre a arquitetura RAG (Retrieval-Augmented Generation).
+AURA é uma assistente inteligente de alto desempenho construída sobre a arquitetura RAG (Retrieval-Augmented Generation). Utilizando o modelo Gemini 1.5 Flash e o banco de dados vetorial Pinecone, a AURA é capaz de processar documentos complexos (PDFs) e fornecer respostas contextuais precisas, combinando a fluidez da IA generativa com o conhecimento técnico de uma base de dados proprietária.
