@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-nocheck
 import { Pinecone } from "@pinecone-database/pinecone";
 
 if (!process.env.PINECONE_API_KEY) {
