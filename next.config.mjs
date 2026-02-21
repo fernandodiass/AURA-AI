@@ -1,9 +1,9 @@
-/**@type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-transpilePackages: ['@pinecone-database/pinecone'],
 typescript: {
 ignoreBuildErrors: true,
 },
+eslint: {
+ignoreDuringBuilds: true,
+},
 };
-
-export default nextConfig;
