@@ -7,3 +7,5 @@ eslint: {
 ignoreDuringBuilds: true,
 },
 };
+
+export default nextConfig;
