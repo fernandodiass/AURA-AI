@@ -1,6 +1,5 @@
-// Adicione @ts-ignore apenas para testar se o build passa
 // @ts-ignore
-import { Pinecone } from '@pinecone-database/pinecone/dist/index';
+import { Pinecone } from "@pinecone-database/pinecone";
 
 if (!process.env.PINECONE_API_KEY) {
   // Use console.error em vez de throw durante o build 
