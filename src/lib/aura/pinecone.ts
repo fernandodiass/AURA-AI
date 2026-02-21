@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Pinecone } from "@pinecone-database/pinecone";
+const { Pinecone } = require("@pinecone-database/pinecone");
 
 if (!process.env.PINECONE_API_KEY) {
   // Use console.error em vez de throw durante o build 
