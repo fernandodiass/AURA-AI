@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── AURA DESIGN SYSTEM ─────────────────────────────────────────── */
+
+:root {
+  --bg-base: #080A10;
+  --bg-surface: #0F1219;
+  --bg-overlay: #161B26;
+  --bg-subtle: #1C2333;
+  --border-default: rgba(255,255,255,0.07);
+  --border-accent: rgba(34,211,238,0.25);
+  --text-primary: #E8EBF2;
+  --text-secondary: #7B8CA6;
+  --text-muted: #3D4F66;
+  --accent-cyan: #22D3EE;
+  --accent-violet: #8B5CF6;
+  --accent-pink: #EC4899;
+  --glow-cyan: rgba(34,211,238,0.15);
+  --glow-violet: rgba(139,92,246,0.15);
+}
+
+.light-mode {
+  --bg-base: #F0F4FB;
+  --bg-surface: #FFFFFF;
+  --bg-overlay: #E8EDF7;
+  --bg-subtle: #DDE5F4;
+  --border-default: rgba(0,0,0,0.08);
+  --border-accent: rgba(34,211,238,0.3);
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-subtle) transparent;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-subtle); border-radius: 10px; }
+
+html, body { height: 100%; margin: 0; padding: 0; }
+
+/* ─── ANIMAÇÕES ──────────────────────────────────────────────────── */
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px var(--glow-cyan); }
+  50%       { box-shadow: 0 0 28px var(--glow-cyan), 0 0 50px var(--glow-violet); }
+}
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%            { transform: translateY(-4px); opacity: 1; }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; } 50% { opacity: 0; }
+}
+@keyframes scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.animate-fade-slide-up  { animation: fadeSlideUp 0.35s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-fade-in        { animation: fadeIn 0.3s ease forwards; }
+.animate-pulse-glow     { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-gradient       { animation: gradient-shift 6s ease infinite; background-size: 200% 200%; }
+.animate-scale-in       { animation: scale-in 0.2s ease forwards; }
+
+.typing-dot { animation: typing-dot 1.4s ease-in-out infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+.cursor-blink::after {
+  content: '|';
+  animation: cursor-blink 1s step-end infinite;
+  margin-left: 1px;
+  color: var(--accent-cyan);
+}
+
+/* ─── GLASS CARDS ────────────────────────────────────────────────── */
+
+.glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-default);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ─── GRADIENTS ──────────────────────────────────────────────────── */
+
+.gradient-aura {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet), var(--accent-pink));
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── MESSAGE PROSE ──────────────────────────────────────────────── */
+
+.message-prose p { margin: 0 0 0.75rem; }
+.message-prose p:last-child { margin-bottom: 0; }
+.message-prose code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.82em;
+  background: rgba(34,211,238,0.08);
+  border: 1px solid rgba(34,211,238,0.15);
+  color: var(--accent-cyan);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+}
+.message-prose pre {
+  background: #0A0C10;
+  border: 1px solid var(--border-default);
+  border-radius: 10px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+.message-prose pre code { background: none; border: none; padding: 0; }
+.message-prose strong { color: var(--text-primary); font-weight: 600; }
+.message-prose ul { padding-left: 1.25rem; margin: 0.5rem 0; }
+.message-prose li { margin-bottom: 0.25rem; }
+
+/* ─── SIDEBAR ITEM ───────────────────────────────────────────────── */
+
+.sidebar-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px; cursor: pointer;
+  transition: all 0.15s ease; font-size: 13px;
+  color: var(--text-secondary);
+}
+.sidebar-item:hover { background: var(--bg-subtle); color: var(--text-primary); }
+.sidebar-item.active { background: rgba(34,211,238,0.08); color: var(--accent-cyan); border: 1px solid rgba(34,211,238,0.15); }
+
+/* ─── INPUT FOCUS GLOW ───────────────────────────────────────────── */
+
+.input-glow:focus-within {
+  box-shadow: 0 0 0 2px rgba(34,211,238,0.2), 0 0 20px rgba(34,211,238,0.08);
+}
+
+/* ─── SHIMMER LOADING ────────────────────────────────────────────── */
+
+.shimmer {
+  background: linear-gradient(90deg, var(--bg-overlay) 25%, var(--bg-subtle) 50%, var(--bg-overlay) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ─── ORBIT LOGO ─────────────────────────────────────────────────── */
+
+.orbit-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(34,211,238,0.3);
+  animation: orbit-spin linear infinite;
+}
+
+/* ─── SCROLLBAR CHAT ─────────────────────────────────────────────── */
+.chat-scroll::-webkit-scrollbar { width: 3px; }
+.chat-scroll::-webkit-scrollbar-thumb { background: var(--bg-subtle); border-radius: 10px; }
